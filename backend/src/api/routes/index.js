@@ -20,6 +20,8 @@ router.post('/properties', async (req, res, next) => {
     res.status(200).json({
       status: 'Success',
       totalMatches: totalMatches,
+      page: page,
+      perPage: perPage,
       data: data
     }).end();
 

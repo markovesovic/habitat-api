@@ -16,7 +16,7 @@ const getProperties = async (body, page, perPage) => {
     
     if (body.params) {
       for (let attribute in body.params) {
-        if (property[attribute] === body.params[attribute]) {
+        if (property[attribute] !== body.params[attribute]) {
           found = false;
           break;
         }
@@ -103,7 +103,34 @@ const getProperties = async (body, page, perPage) => {
 
 }
 
+const getNumberOfPropertiesPerCategory = async () => {
+  let numberOfPropertiesPerCategory = {
+    elevator: 0,
+    garage: 0,
+    parking: 0,
+    terrace: 0,
+    yard: 0,
+    swimming_pool: 0,
+    doorkeeper: 0,
+    building_security: 0
+  };
+
+  for (let i = 0; i < properties.list.length; i++) {
+    numberOfPropertiesPerCategory[properties.list[i].building_type] ?
+      numberOfPropertiesPerCategory[properties.list[i].building_type] = numberOfPropertiesPerCategory[properties.list[i].building_type] + 1 :
+      numberOfPropertiesPerCategory[properties.list[i].building_type] = 1;
+
+    for (let param in numberOfPropertiesPerCategory) {
+      if (properties.list[i][param] === true) {
+        numberOfPropertiesPerCategory[param]++;
+      }
+    }
+  }
+  return numberOfPropertiesPerCategory;
+}
+
 module.exports = {
   getProperty,
-  getProperties
+  getProperties,
+  getNumberOfPropertiesPerCategory
 }

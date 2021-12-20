@@ -3,14 +3,14 @@ const fs = require('fs');
 
 let properties = {
   list: [],
-  set: {}
-}
+  set: {},
+};
 let init = false;
 
 const initProperties = () => {
   fs.readFile('./habitat_db.json', (err, data) => {
     if (err) {
-     logger.crit(err);
+      logger.crit(err);
       return;
     }
 
@@ -22,11 +22,10 @@ const initProperties = () => {
       properties.list.push(item);
       properties.set[item.private_id] = item;
     }
-
   });
-}
+};
 
-if(!init) {
+if (!init) {
   initProperties();
   init = true;
 }

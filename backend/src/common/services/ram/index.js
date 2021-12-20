@@ -1,19 +1,18 @@
 const properties = require('../../data/ram');
 
 const getProperty = async id => {
-  if(id) {
+  if (id) {
     return properties.set[id];
   }
-}
+};
 
 const getProperties = async (body, page, perPage) => {
   let data = [];
 
   for (let i = 0; i < properties.list.length; i++) {
-    
     let property = properties.list[i];
     let found = true;
-    
+
     if (body.params) {
       for (let attribute in body.params) {
         if (property[attribute] !== body.params[attribute]) {
@@ -50,33 +49,31 @@ const getProperties = async (body, page, perPage) => {
     }
 
     if (body.max_price) {
-      if(property.price > body.max_price) {
+      if (property.price > body.max_price) {
         continue;
       }
     }
 
-
     data.push(property);
   }
-  
+
   const totalMatches = data.length;
 
   if (body.sort) {
-
     if (body.sort === 'asc') {
-      data.sort( (a, b) => {
+      data.sort((a, b) => {
         return a.price - b.price;
       });
     }
 
-    if(body.sort === 'desc') {
-      data.sort( (a, b) => {
+    if (body.sort === 'desc') {
+      data.sort((a, b) => {
         return b.price - a.price;
       });
     }
 
-    if(body.sort === 'rating') {
-      data.sort( (a, b) => {
+    if (body.sort === 'rating') {
+      data.sort((a, b) => {
         return b.rating - a.rating;
       });
     }
@@ -89,7 +86,7 @@ const getProperties = async (body, page, perPage) => {
     return {
       totalMatches: totalMatches,
       data: [],
-    }
+    };
   }
 
   if (endIndex > totalMatches) {
@@ -98,10 +95,9 @@ const getProperties = async (body, page, perPage) => {
 
   return {
     totalMatches: totalMatches,
-    data: data.slice(startIndex, endIndex)
-  }
-
-}
+    data: data.slice(startIndex, endIndex),
+  };
+};
 
 const getNumberOfPropertiesPerCategory = async () => {
   let numberOfPropertiesPerCategory = {
@@ -112,13 +108,14 @@ const getNumberOfPropertiesPerCategory = async () => {
     yard: 0,
     swimming_pool: 0,
     doorkeeper: 0,
-    building_security: 0
+    building_security: 0,
   };
 
   for (let i = 0; i < properties.list.length; i++) {
-    numberOfPropertiesPerCategory[properties.list[i].building_type] ?
-      numberOfPropertiesPerCategory[properties.list[i].building_type] = numberOfPropertiesPerCategory[properties.list[i].building_type] + 1 :
-      numberOfPropertiesPerCategory[properties.list[i].building_type] = 1;
+    numberOfPropertiesPerCategory[properties.list[i].building_type]
+      ? (numberOfPropertiesPerCategory[properties.list[i].building_type] =
+          numberOfPropertiesPerCategory[properties.list[i].building_type] + 1)
+      : (numberOfPropertiesPerCategory[properties.list[i].building_type] = 1);
 
     for (let param in numberOfPropertiesPerCategory) {
       if (properties.list[i][param] === true) {
@@ -127,10 +124,10 @@ const getNumberOfPropertiesPerCategory = async () => {
     }
   }
   return numberOfPropertiesPerCategory;
-}
+};
 
 module.exports = {
   getProperty,
   getProperties,
-  getNumberOfPropertiesPerCategory
-}
+  getNumberOfPropertiesPerCategory,
+};

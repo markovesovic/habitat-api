@@ -7,13 +7,13 @@ const config = {
   },
 
   get: name => {
-    return config.set(name, config._config[name] || config._getEnv(name));        
+    return config.set(name, config._config[name] || config._getEnv(name));
   },
-    
+
   _getEnv: name => {
     return process.env[name];
-  }
-}
+  },
+};
 
 if (config.get('NODE_ENV') !== 'production') {
   require('dotenv').config();

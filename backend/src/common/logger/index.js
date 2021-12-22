@@ -1,5 +1,5 @@
 const winston = require('winston');
-const config = require('../../config').default;
+const config = require('../../config');
 
 const transports = {
   console: new winston.transports.Console({

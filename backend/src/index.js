@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const config = require('./config').default;
+const config = require('./config');
 const logger = require('./common/logger');
 const router = require('./api/routes');
 const handlers = require('./api/handlers');
@@ -13,7 +13,7 @@ app.use(cors());
 
 if (config.get('NODE_ENV') !== 'production') {
   app.use(async (req, _res, next) => {
-    logger.info(`Accessed route ${req.url}`);
+    logger.info(`Accessed route ${req.url}, rest method: ${req.method}`);
     next();
   });
 }

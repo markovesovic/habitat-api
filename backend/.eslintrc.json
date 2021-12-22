@@ -4,11 +4,14 @@
   "rules": {
     "prettier/prettier": "error",
     "no-unused-vars": "warn",
-    "import/no-extraneous-dependencies": "warn",
-    "global-require": "warn",
-    "no-underscore-dangle": "warn",
-    "node/no-unpublished-require": "warn",
-    "no-continue": "warn",
-    "no-restricted-syntax": "warn"
+    "import/no-extraneous-dependencies": "off",
+    "global-require": "off",
+    "no-underscore-dangle": "off",
+    "node/no-unpublished-require": "off",
+    "no-continue": "off",
+    "no-restricted-syntax": "off",
+    "no-param-reassign": "off",
+    "no-process-exit": "off",
+    "no-await-in-loop":"warn"
   }
 }

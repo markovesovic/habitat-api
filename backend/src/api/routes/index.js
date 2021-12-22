@@ -47,11 +47,27 @@ router.get('/properties/count', async (_req, res, next) => {
   }
 });
 
+router.post('/property', async (req, res, next) => {
+  try {
+    const property = req.body;
+
+    const publicID = await services.db.addProperty(property);
+
+    if (publicID) {
+      res.status(200).json({ status: 'Success', publicID }).end();
+      return;
+    }
+    res.status(400).json({ status: 'Failed' });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/property/:id', async (req, res, next) => {
   try {
     const propertyID = +req.params.id;
 
-    const property = await services.ram.getProperty(propertyID);
+    const property = await services.db.getProperty(propertyID);
 
     if (property) {
       res

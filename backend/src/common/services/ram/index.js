@@ -4,17 +4,18 @@ const getProperty = async id => {
   if (id) {
     return properties.set[id];
   }
+  return undefined;
 };
 
 const getProperties = async (body, page, perPage) => {
-  let data = [];
+  const data = [];
 
-  for (let i = 0; i < properties.list.length; i++) {
-    let property = properties.list[i];
+  for (let i = 0; i < properties.list.length; i += 1) {
+    const property = properties.list[i];
     let found = true;
 
     if (body.params) {
-      for (let attribute in body.params) {
+      for (const attribute in body.params) {
         if (property[attribute] !== body.params[attribute]) {
           found = false;
           break;
@@ -61,30 +62,24 @@ const getProperties = async (body, page, perPage) => {
 
   if (body.sort) {
     if (body.sort === 'asc') {
-      data.sort((a, b) => {
-        return a.price - b.price;
-      });
+      data.sort((a, b) => a.price - b.price);
     }
 
     if (body.sort === 'desc') {
-      data.sort((a, b) => {
-        return b.price - a.price;
-      });
+      data.sort((a, b) => b.price - a.price);
     }
 
     if (body.sort === 'rating') {
-      data.sort((a, b) => {
-        return b.rating - a.rating;
-      });
+      data.sort((a, b) => b.rating - a.rating);
     }
   }
 
-  let startIndex = (page - 1) * perPage;
+  const startIndex = (page - 1) * perPage;
   let endIndex = page * perPage;
 
   if (startIndex > totalMatches) {
     return {
-      totalMatches: totalMatches,
+      totalMatches,
       data: [],
     };
   }
@@ -94,13 +89,13 @@ const getProperties = async (body, page, perPage) => {
   }
 
   return {
-    totalMatches: totalMatches,
+    totalMatches,
     data: data.slice(startIndex, endIndex),
   };
 };
 
 const getNumberOfPropertiesPerCategory = async () => {
-  let numberOfPropertiesPerCategory = {
+  const numberOfPropertiesPerCategory = {
     elevator: 0,
     garage: 0,
     parking: 0,
@@ -111,15 +106,16 @@ const getNumberOfPropertiesPerCategory = async () => {
     building_security: 0,
   };
 
-  for (let i = 0; i < properties.list.length; i++) {
-    numberOfPropertiesPerCategory[properties.list[i].building_type]
-      ? (numberOfPropertiesPerCategory[properties.list[i].building_type] =
-          numberOfPropertiesPerCategory[properties.list[i].building_type] + 1)
-      : (numberOfPropertiesPerCategory[properties.list[i].building_type] = 1);
+  for (let i = 0; i < properties.list.length; i += 1) {
+    if (numberOfPropertiesPerCategory[properties.list[i].building_type]) {
+      numberOfPropertiesPerCategory[properties.list[i].building_type] += 1;
+    } else {
+      numberOfPropertiesPerCategory[properties.list[i].building_type] = 1;
+    }
 
-    for (let param in numberOfPropertiesPerCategory) {
+    for (const param in numberOfPropertiesPerCategory) {
       if (properties.list[i][param] === true) {
-        numberOfPropertiesPerCategory[param]++;
+        numberOfPropertiesPerCategory[param] += 1;
       }
     }
   }

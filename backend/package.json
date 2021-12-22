@@ -1,10 +1,12 @@
 {
   "name": "habitat_api",
+  "repository": "github.com/markovesovic/habitat-api.git",
   "version": "1.0.0",
   "description": "Backend api for getting properties",
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon main"
+    "dev": "nodemon main",
+    "lint": "eslint ./"
   },
   "keywords": [
     "habitat",
@@ -15,7 +17,18 @@
   "license": "ISC",
   "devDependencies": {
     "dotenv": "^10.0.0",
-    "nodemon": "^2.0.15"
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb": "^19.0.2",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
   },
   "dependencies": {
     "cors": "^2.8.5",

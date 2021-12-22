@@ -1,9 +1,9 @@
-const config = require('./config');
+const express = require('express');
+const cors = require('cors');
+const config = require('./config').default;
 const logger = require('./common/logger');
 const router = require('./api/routes');
 const handlers = require('./api/handlers');
-const express = require('express');
-const cors = require('cors');
 
 const app = express();
 

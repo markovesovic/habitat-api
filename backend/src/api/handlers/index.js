@@ -1,7 +1,7 @@
 const logger = require('../../common/logger');
 
 module.exports = {
-  notFound: async (req, res, _next) => {
+  notFound: async (req, res) => {
     if (!req.route) {
       res
         .status(404)
@@ -12,7 +12,7 @@ module.exports = {
         .end();
     }
   },
-  unknown: async (err, _req, res, _next) => {
+  unknown: async (err, _req, res) => {
     logger.error(err.stack);
 
     res

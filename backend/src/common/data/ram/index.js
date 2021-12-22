@@ -1,7 +1,7 @@
-const logger = require('../../logger');
 const fs = require('fs');
+const logger = require('../../logger');
 
-let properties = {
+const properties = {
   list: [],
   set: {},
 };
@@ -17,8 +17,8 @@ const initProperties = () => {
     const content = data.toString();
     const lines = content.split('\n');
 
-    for (let i = 0; i < lines.length - 1; i++) {
-      let item = JSON.parse(lines[i]);
+    for (let i = 0; i < lines.length - 1; i += 1) {
+      const item = JSON.parse(lines[i]);
       properties.list.push(item);
       properties.set[item.private_id] = item;
     }

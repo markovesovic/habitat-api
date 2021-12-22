@@ -1,5 +1,5 @@
-const config = require('../../../config');
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient } = require('mongodb');
+const config = require('../../../config').default;
 
 const mongoConnection = {
   collections: {},
@@ -13,7 +13,7 @@ const mongoConnection = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
           },
-          function (err, client) {
+          (err, client) => {
             if (err) {
               return reject(err);
             }
@@ -22,12 +22,12 @@ const mongoConnection = {
             mongoConnection.collections[collectionName] = db.collection(collectionName);
 
             resolve(mongoConnection.collections[collectionName]);
+            return undefined;
           }
         );
       });
-    } else {
-      return Promise.resolve(mongoConnection.collections[collectionName]);
     }
+    return Promise.resolve(mongoConnection.collections[collectionName]);
   },
 };
 
@@ -45,8 +45,8 @@ module.exports = {
     });
 
     return {
-      find: (filter, sort) => {
-        return new Promise((resolve, reject) => {
+      find: (filter, sort) =>
+        new Promise((resolve, reject) => {
           collectionPromise.then(collection => {
             if (sort) {
               collection
@@ -58,6 +58,7 @@ module.exports = {
                   }
 
                   resolve(results);
+                  return undefined;
                 });
             } else {
               collection.find(filter).toArray((err, results) => {
@@ -66,14 +67,14 @@ module.exports = {
                 }
 
                 resolve(results);
+                return undefined;
               });
             }
           });
-        });
-      },
+        }),
 
-      findOne: filter => {
-        return new Promise((resolve, reject) => {
+      findOne: filter =>
+        new Promise((resolve, reject) => {
           collectionPromise.then(collection => {
             collection
               .find(filter)
@@ -88,13 +89,13 @@ module.exports = {
                 } else {
                   resolve(null);
                 }
+                return undefined;
               });
           });
-        });
-      },
+        }),
 
-      del: filter => {
-        return new Promise((resolve, reject) => {
+      del: filter =>
+        new Promise((resolve, reject) => {
           collectionPromise.then(collection => {
             collection.deleteMany(filter, (err, results) => {
               if (err) {
@@ -102,13 +103,13 @@ module.exports = {
               }
 
               resolve(results);
+              return undefined;
             });
           });
-        });
-      },
+        }),
 
-      insert: object => {
-        return new Promise((resolve, reject) => {
+      insert: object =>
+        new Promise((resolve, reject) => {
           collectionPromise.then(collection => {
             collection.insertOne(object, (err, results) => {
               if (err) {
@@ -116,10 +117,10 @@ module.exports = {
               }
 
               resolve(results);
+              return undefined;
             });
           });
-        });
-      },
+        }),
     };
   },
 };

@@ -1,12 +1,12 @@
+const router = require('express').Router();
 const services = require('../../common/services');
 const logger = require('../../common/logger');
-const router = require('express').Router();
 
 router.post('/properties', async (req, res, next) => {
   try {
     const start = process.hrtime();
 
-    const page = req.query.page ? +req.query.page : 1;
+    let page = req.query.page ? +req.query.page : 1;
     if (page < 0) {
       page = 1;
     }
@@ -21,10 +21,10 @@ router.post('/properties', async (req, res, next) => {
       .status(200)
       .json({
         status: 'Success',
-        totalMatches: totalMatches,
-        page: page,
-        perPage: perPage,
-        data: data,
+        totalMatches,
+        page,
+        perPage,
+        data,
       })
       .end();
   } catch (err) {
@@ -32,17 +32,17 @@ router.post('/properties', async (req, res, next) => {
   }
 });
 
-router.get('/properties/count', async (req, res, next) => {
+router.get('/properties/count', async (_req, res, next) => {
   try {
     const numsPerCategory = await services.ram.getNumberOfPropertiesPerCategory();
     res
       .status(200)
       .json({
         status: 'Success',
-        numsPerCategory: numsPerCategory,
+        numsPerCategory,
       })
       .end();
-  } catch {
+  } catch (err) {
     next(err);
   }
 });
@@ -58,7 +58,7 @@ router.get('/property/:id', async (req, res, next) => {
         .status(200)
         .json({
           status: 'Success',
-          property: property,
+          property,
         })
         .end();
       return;

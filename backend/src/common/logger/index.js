@@ -1,5 +1,5 @@
 const winston = require('winston');
-const config = require('../../config');
+const config = require('../../config').default;
 
 const transports = {
   console: new winston.transports.Console({
@@ -12,9 +12,7 @@ const transports = {
         format: 'YYYY-MM-DD HH:mm:ss:SSS',
       }),
       winston.format.colorize(),
-      winston.format.printf(info => {
-        return `${info.timestamp} ${info.level}: ${info.message}`;
-      })
+      winston.format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
     ),
   }),
 };

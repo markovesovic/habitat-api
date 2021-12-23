@@ -22,7 +22,6 @@ const mongoConnection = {
             mongoConnection.collections[collectionName] = db.collection(collectionName);
 
             resolve(mongoConnection.collections[collectionName]);
-            return undefined;
           }
         );
       });
@@ -45,20 +44,21 @@ module.exports = {
     });
 
     return {
-      find: (filter, sort) =>
+      find: (filter, sort, page, perPage) =>
         new Promise((resolve, reject) => {
           collectionPromise.then(collection => {
             if (sort) {
               collection
                 .find(filter)
                 .sort(sort)
+                .skip(page)
+                .limit(perPage)
                 .toArray((err, results) => {
                   if (err) {
                     return reject(err);
                   }
 
                   resolve(results);
-                  return undefined;
                 });
             } else {
               collection.find(filter).toArray((err, results) => {
@@ -67,7 +67,6 @@ module.exports = {
                 }
 
                 resolve(results);
-                return undefined;
               });
             }
           });
@@ -89,7 +88,6 @@ module.exports = {
                 } else {
                   resolve(null);
                 }
-                return undefined;
               });
           });
         }),
@@ -103,7 +101,6 @@ module.exports = {
               }
 
               resolve(results);
-              return undefined;
             });
           });
         }),
@@ -117,8 +114,14 @@ module.exports = {
               }
 
               resolve(results);
-              return undefined;
             });
+          });
+        }),
+
+      count: filter =>
+        new Promise(resolve => {
+          collectionPromise.then(collection => {
+            resolve(collection.find(filter).count());
           });
         }),
     };

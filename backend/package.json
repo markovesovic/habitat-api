@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon main",
     "lint": "eslint ./",
-    "loadMongo": "node src/common/services/db/load.js"
+    "loadMongo": "node scripts/load.js"
   },
   "keywords": [
     "habitat",

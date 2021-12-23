@@ -89,8 +89,8 @@ const getProperties = async (body, page, perPage) => {
   }
 
   return {
-    totalMatches,
     data: data.slice(startIndex, endIndex),
+    totalMatches,
   };
 };
 

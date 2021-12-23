@@ -1,7 +1,7 @@
 const fs = require('fs');
-const logger = require('../../logger');
+const logger = require('../src/common/logger');
 
-const db = require('./index');
+const db = require('../src/common/services/db/index');
 
 const readPropertiesFromJson = async () => {
   const properties = [];
@@ -11,7 +11,6 @@ const readPropertiesFromJson = async () => {
   const content = data.toString();
   const lines = content.split('\n');
 
-  // for (let i = 0; i < 5; i += 1) {
   for (let i = 0; i < lines.length - 1; i += 1) {
     const item = JSON.parse(lines[i]);
     properties.push(item);

@@ -12,6 +12,7 @@
     "no-restricted-syntax": "off",
     "no-param-reassign": "off",
     "no-process-exit": "off",
-    "no-await-in-loop":"warn"
+    "no-await-in-loop": "off",
+    "consistent-return": "off"
   }
 }

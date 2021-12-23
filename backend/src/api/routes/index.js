@@ -11,8 +11,19 @@ router.post('/properties', async (req, res, next) => {
       page = 1;
     }
     const perPage = req.query.perPage ? +req.query.perPage : 20;
+    logger.info(`page: ${page}, perPage:${perPage}`);
 
-    const { totalMatches, data } = await services.ram.getProperties(req.body, page, perPage);
+    // const { results, totalMatches } = await services.ram.getProperties(req.body, page, perPage);
+    const { results, totalMatches } = await services.db.getProperties(req.body, page, perPage);
+
+    const pricesAndAreas = [];
+    results.forEach(result => {
+      pricesAndAreas.push({
+        price: result.price,
+        area: result.square_areas[0] ? result.square_areas[0].area : 'none',
+        rating: result.rating,
+      });
+    });
 
     const end = process.hrtime(start);
     logger.info(`Execution time: ${end[0]}s ${end[1] / 1000000}ms`);
@@ -24,7 +35,7 @@ router.post('/properties', async (req, res, next) => {
         totalMatches,
         page,
         perPage,
-        data,
+        data: pricesAndAreas,
       })
       .end();
   } catch (err) {
@@ -65,7 +76,7 @@ router.post('/property', async (req, res, next) => {
 
 router.get('/property/:id', async (req, res, next) => {
   try {
-    const propertyID = +req.params.id;
+    const propertyID = req.params.id;
 
     const property = await services.db.getProperty(propertyID);
 

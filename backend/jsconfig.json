@@ -3,7 +3,7 @@
     "module": "commonJS",
     "baseUrl": "./",
     "paths": {
-      "@config/*": ["./config/*"],
+      "@config/*": ["./src/config/*"],
       "@app/*": ["./src/*"],
       "@api/*": ["./src/api/*"],
       "@common/*": ["./src/common/*"]

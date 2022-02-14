@@ -4,8 +4,6 @@ const logger = require('../../common/logger');
 
 router.post('/properties', async (req, res, next) => {
   try {
-    const start = process.hrtime();
-
     let page = req.query.page ? +req.query.page : 1;
     if (page < 0) {
       page = 1;
@@ -15,28 +13,22 @@ router.post('/properties', async (req, res, next) => {
 
     logger.info(`page: ${page}, perPage:${perPage}`);
 
-    const { results, totalMatches } = await services.getProperties(req.body, page, perPage);
+    // const data = await services.getProperties(req.body, page, perPage);
+    // const count = await services.getPropertiesCount(req.body);
 
-    // const pricesAndAreas = [];
-    // results.forEach(result => {
-    //   pricesAndAreas.push({
-    //     price: result.price,
-    //     area: result.square_areas[0] ? result.square_areas[0].area : 'none',
-    //     rating: result.rating,
-    //   });
-    // });
-
-    const end = process.hrtime(start);
-    logger.info(`Execution time: ${end[0]}s ${end[1] / 1000000}ms`);
+    const result = await Promise.all([
+      services.getProperties(req.body, page, perPage),
+      services.getPropertiesCount(req.body),
+    ]);
 
     res
       .status(200)
       .json({
         status: 'Success',
-        totalMatches,
         page,
         perPage,
-        data: results,
+        count: result[1],
+        data: result[0],
       })
       .end();
   } catch (err) {

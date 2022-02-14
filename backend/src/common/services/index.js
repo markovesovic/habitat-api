@@ -14,7 +14,7 @@ const getProperty = async id => {
   return property;
 };
 
-const getProperties = async (body, page, perPage) => {
+const makeQuery = async (body, page, perPage) => {
   const query = body.params;
 
   // Check for area size
@@ -50,13 +50,30 @@ const getProperties = async (body, page, perPage) => {
 
   logger.info(`query: ${JSON.stringify(query)}`);
   logger.info(`sort: ${JSON.stringify(sort)}`);
+
+  return {
+    query,
+    sort,
+    skip,
+    perPage,
+  };
+};
+
+const getProperties = async (body, page, perPage) => {
+  const { query, sort, skip } = await makeQuery(body, page, perPage);
   const results = await client('properties').find(query, sort, skip, perPage);
-  const totalMatches = await client('properties').count(query);
-  return { results, totalMatches };
+  return results;
+};
+
+const getPropertiesCount = async body => {
+  const { query } = await makeQuery(body);
+  const count = await client('properties').count(query);
+  return count;
 };
 
 module.exports = {
   addProperty,
   getProperty,
   getProperties,
+  getPropertiesCount,
 };

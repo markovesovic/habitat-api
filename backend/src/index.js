@@ -17,6 +17,7 @@ if (config.get('NODE_ENV') !== 'production') {
     next();
   });
 }
+app.use(handlers.log);
 
 app.use('/', router);
 

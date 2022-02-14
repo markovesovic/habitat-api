@@ -10,11 +10,12 @@ router.post('/properties', async (req, res, next) => {
     if (page < 0) {
       page = 1;
     }
-    const perPage = req.query.perPage ? +req.query.perPage : 20;
+    let perPage = req.query.perPage ? +req.query.perPage : 20;
+    perPage = perPage > 100 ? 100 : perPage;
+
     logger.info(`page: ${page}, perPage:${perPage}`);
 
-    // const { results, totalMatches } = await services.ram.getProperties(req.body, page, perPage);
-    const { results, totalMatches } = await services.db.getProperties(req.body, page, perPage);
+    const { results, totalMatches } = await services.getProperties(req.body, page, perPage);
 
     const pricesAndAreas = [];
     results.forEach(result => {
@@ -45,7 +46,7 @@ router.post('/properties', async (req, res, next) => {
 
 router.get('/properties/count', async (_req, res, next) => {
   try {
-    const numsPerCategory = await services.ram.getNumberOfPropertiesPerCategory();
+    const numsPerCategory = await services.getNumberOfPropertiesPerCategory();
     res
       .status(200)
       .json({

@@ -17,14 +17,14 @@ router.post('/properties', async (req, res, next) => {
 
     const { results, totalMatches } = await services.getProperties(req.body, page, perPage);
 
-    const pricesAndAreas = [];
-    results.forEach(result => {
-      pricesAndAreas.push({
-        price: result.price,
-        area: result.square_areas[0] ? result.square_areas[0].area : 'none',
-        rating: result.rating,
-      });
-    });
+    // const pricesAndAreas = [];
+    // results.forEach(result => {
+    //   pricesAndAreas.push({
+    //     price: result.price,
+    //     area: result.square_areas[0] ? result.square_areas[0].area : 'none',
+    //     rating: result.rating,
+    //   });
+    // });
 
     const end = process.hrtime(start);
     logger.info(`Execution time: ${end[0]}s ${end[1] / 1000000}ms`);
@@ -36,7 +36,7 @@ router.post('/properties', async (req, res, next) => {
         totalMatches,
         page,
         perPage,
-        data: pricesAndAreas,
+        data: results,
       })
       .end();
   } catch (err) {

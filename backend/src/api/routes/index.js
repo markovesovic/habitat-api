@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const services = require('../../common/services');
-const logger = require('../../common/logger');
 
 router.post('/properties', async (req, res, next) => {
   try {
@@ -10,8 +9,6 @@ router.post('/properties', async (req, res, next) => {
     }
     let perPage = req.query.perPage ? +req.query.perPage : 20;
     perPage = perPage > 100 ? 100 : perPage;
-
-    logger.info(`page: ${page}, perPage:${perPage}`);
 
     // const data = await services.getProperties(req.body, page, perPage);
     // const count = await services.getPropertiesCount(req.body);

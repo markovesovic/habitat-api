@@ -1,15 +1,17 @@
-POST http://localhost:8000/properties
+POST http://localhost:8000/properties HTTP/1.1
         ?page=1
-        &perPage=10     HTTP/1.1
-
+        &perPage=10     
 Content-Type: application/json
 
 {
-    "params": {
-        "for_rent": true,
-    },
-    "min_price": 200,
-    "sort": "asc"
+	"size_max": 56,
+	"size_min": 50,
+	"price_min": 300,
+	"price_max": 2000,
+	"params": {
+		"for_rent": true
+	},
+	"sort": "asc"
 }
 
 # {

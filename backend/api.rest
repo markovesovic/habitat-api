@@ -6,11 +6,24 @@ Content-Type: application/json
 
 {
     "params": {
-        "for_rent": true
+        "for_rent": true,
     },
     "min_price": 200,
     "sort": "asc"
 }
 
+# {
+# 	"size_max": 56,
+# 	"size_min": 50,
+# 	"price_min": 300,
+# 	"price_max": 2000,
+#   asc / desc / rating
+# 	"sort": "asc"
+#   Ovde stavis paramse kao sto stoje u property jsonu
+# 	"params": {
+# 		"for_rent": true
+# 	},
+# }
+
 ###
-GET http://localhost:8000/property/1 HTTP/1.1
+GET http://localhost:8000/property/0a4385ac-073e-4dfa-8a02-d25313473cf3 HTTP/1.1

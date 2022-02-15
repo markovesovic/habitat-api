@@ -71,7 +71,7 @@ router.get('/property/:id', async (req, res, next) => {
   try {
     const propertyID = req.params.id;
 
-    const property = await services.db.getProperty(propertyID);
+    const property = await services.getProperty(propertyID);
 
     if (property) {
       res

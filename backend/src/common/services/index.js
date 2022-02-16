@@ -38,9 +38,9 @@ const makeQuery = async (body, page, perPage) => {
   if (body.price_max && body.price_min) {
     query.price = { $lt: body.price_max, $gt: body.price_min };
   } else if (body.price_max) {
-    query.price = { $gt: body.price_min };
+    query.price = { $gt: body.price_max };
   } else if (body.price_min) {
-    query.price = { $lt: body.price_max };
+    query.price = { $lt: body.price_min };
   }
 
   // Choose sorting option if any

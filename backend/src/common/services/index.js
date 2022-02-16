@@ -63,7 +63,6 @@ const makeQuery = async (body, page, perPage) => {
     query,
     sort,
     skip,
-    perPage,
   };
 };
 

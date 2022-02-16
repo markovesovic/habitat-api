@@ -18,47 +18,23 @@ router.post('/properties', async (req, res, next) => {
       services.getPropertiesCount(req.body),
     ]);
 
-    res
-      .status(200)
-      .json({
-        status: 'Success',
-        page,
-        perPage,
-        count: result[1],
-        data: result[0],
-      })
-      .end();
-  } catch (err) {
-    next(err);
-  }
-});
+    const data = result[0];
+    const count = result[1];
 
-router.get('/properties/count', async (_req, res, next) => {
-  try {
-    const numsPerCategory = await services.getNumberOfPropertiesPerCategory();
-    res
-      .status(200)
-      .json({
-        status: 'Success',
-        numsPerCategory,
-      })
-      .end();
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.post('/property', async (req, res, next) => {
-  try {
-    const property = req.body;
-
-    const publicID = await services.db.addProperty(property);
-
-    if (publicID) {
-      res.status(200).json({ status: 'Success', publicID }).end();
+    if (data) {
+      res
+        .status(200)
+        .json({
+          status: 'Success',
+          page,
+          perPage,
+          count,
+          data,
+        })
+        .end();
       return;
     }
-    res.status(400).json({ status: 'Failed' });
+    res.status(400).json({ status: 'Failed' }).end();
   } catch (err) {
     next(err);
   }
@@ -91,5 +67,36 @@ router.get('/property/:id', async (req, res, next) => {
     next(err);
   }
 });
+
+router.post('/property', async (req, res, next) => {
+  try {
+    const property = req.body;
+
+    const publicID = await services.db.addProperty(property);
+
+    if (publicID) {
+      res.status(200).json({ status: 'Success', publicID }).end();
+      return;
+    }
+    res.status(400).json({ status: 'Failed' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// router.get('/properties/count', async (_req, res, next) => {
+//   try {
+//     const numsPerCategory = await services.getNumberOfPropertiesPerCategory();
+//     res
+//       .status(200)
+//       .json({
+//         status: 'Success',
+//         numsPerCategory,
+//       })
+//       .end();
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 module.exports = router;

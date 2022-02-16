@@ -15,7 +15,15 @@ const getProperty = async id => {
 };
 
 const makeQuery = async (body, page, perPage) => {
-  const query = body.params;
+  const query = {};
+
+  Object.keys(body.params).forEach(key => {
+    if (body.params[key]) {
+      query[key] = body.params[key];
+    }
+  });
+
+  // const query = body.params;
 
   // Check for area size
   if (body.size_max && body.size_min) {

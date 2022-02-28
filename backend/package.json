@@ -5,6 +5,7 @@
   "description": "Backend api for getting properties",
   "main": "src/index.js",
   "scripts": {
+    "start": "node src/index.js",
     "dev": "nodemon main",
     "lint": "eslint ./",
     "loadMongo": "node scripts/load.js"
